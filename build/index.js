@@ -15,22 +15,25 @@ var unixify = require('unixify');
 function systemRegisterName(filePath, srcRoot, contents) {
     var matches = contents.match(mainRE) || [];
     var fullMatch = matches[0], nameList = matches[1];
+    var normalize = createNormalize(filePath, srcRoot);
+    var moduleName = normalize(filePath);
+    moduleName = moduleName.slice(0, -Path.extname(moduleName).length);
     if (nameList) {
-        var normalize_1 = createNormalize(filePath, srcRoot);
         var nameList2 = nameList.split(',')
             .map(function (name) { return trim(name); })
             .map(function (name) { return trim(name, '\'"'); })
             .map(function (name) {
             if (isRelativePath(name)) {
-                name = normalize_1(name);
+                name = normalize(name);
             }
             return name;
         })
             .map(function (name) { return ("'" + name + "'"); })
             .join(', ');
-        var moduleName = normalize_1(filePath);
-        moduleName = moduleName.slice(0, -Path.extname(moduleName).length);
         contents = contents.replace(fullMatch, "System.register('" + moduleName + "', [" + nameList2 + "]");
+    }
+    else if (nameList === '') {
+        contents = contents.replace(fullMatch, "System.register('" + moduleName + "', []");
     }
     return contents;
 }

@@ -15,8 +15,10 @@ const unixify = require('unixify');
 export function systemRegisterName(filePath: string, srcRoot: string, contents: string) {
 	const matches = contents.match(mainRE) || [];
 	let [fullMatch, nameList] = matches;
+	const normalize = createNormalize(filePath, srcRoot);
+	let moduleName = normalize(filePath);
+	moduleName = moduleName.slice(0, -Path.extname(moduleName).length);
 	if (nameList) {
-		const normalize = createNormalize(filePath, srcRoot);
 		let nameList2 = nameList.split(',')
 			.map(name => trim(name))
 			.map(name => trim(name, '\'"'))
@@ -28,9 +30,9 @@ export function systemRegisterName(filePath: string, srcRoot: string, contents: 
 			})
 			.map(name => `'${name}'`)
 			.join(', ');
-		let moduleName = normalize(filePath);
-		moduleName = moduleName.slice(0, -Path.extname(moduleName).length);
 		contents = contents.replace(fullMatch, `System.register('${moduleName}', [${nameList2}]`);
+	} else if (nameList === '') {
+		contents = contents.replace(fullMatch, `System.register('${moduleName}', []`);
 	}
 	return contents;
 };

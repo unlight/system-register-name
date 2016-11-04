@@ -4,10 +4,12 @@ var ava;
 var thru;
 
 module.exports = function (pipelines) {
+    
+    const types = ['node'];
 
     pipelines["source"] = [
         glob({ basePath: "src" }, "**/!(*.test).ts"),
-        ts({declaration: true, sourceMap: true, module: "commonjs", types: ['node']}),
+        ts({declaration: true, sourceMap: true, module: "commonjs", types}),
         write("build"),
     ];
 
@@ -23,7 +25,7 @@ module.exports = function (pipelines) {
 
     pipelines["build"] = [
         glob({ basePath: "src" }, "**/!(*.test).ts"),
-        ts({declaration: true, sourceMap: true}),
+        ts({declaration: true, sourceMap: true, types}),
         write("build"),
     ];
 };

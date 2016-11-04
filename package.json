@@ -1,7 +1,7 @@
 {
   "name": "system-register-name",
   "version": "1.0.0",
-  "description": "Converts anonymous System.register([] into named System.register('name', [], ...",
+  "description": "Converts anonymous System.register([], ...) into named System.register('name', [], ...)",
   "main": "build/index.js",
   "typing": "build/index.d.ts",
   "license": "XNet",
