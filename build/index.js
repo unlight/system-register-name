@@ -4,7 +4,7 @@ var isRelativePath = require('is-relative-path');
 var Path = require('path');
 var createNormalize = function (filePath, srcRoot) {
     return function (name) {
-        var result = Path.resolve(filePath, name);
+        var result = Path.resolve(Path.dirname(filePath), name);
         result = Path.relative(srcRoot, result);
         result = unixify(result);
         return result;

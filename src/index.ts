@@ -3,7 +3,7 @@ const isRelativePath = require('is-relative-path');
 const Path = require('path');
 const createNormalize = function(filePath: string, srcRoot: string) {
 	return (name: string): string => {
-		let result = Path.resolve(filePath, name);
+		let result = Path.resolve(Path.dirname(filePath), name);
 		result = Path.relative(srcRoot, result);
 		result = unixify(result);
 		return result;
