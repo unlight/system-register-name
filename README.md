@@ -1,4 +1,6 @@
 # system-register-name
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/unlight/system-register-name.svg)](https://greenkeeper.io/)
 Converts anonymous System.register([], ...) into named System.register('name', [], ...)
 
 ## CHANGELOG
